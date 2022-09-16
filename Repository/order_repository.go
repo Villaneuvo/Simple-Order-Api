@@ -43,8 +43,7 @@ func (idb *InDB) GetOrderRepository() ([]models.Order, error) {
 }
 
 func (idb *InDB) UpdateOrderRepository(order models.Order) (models.Order, error) {
-	err := idb.DB.Updates(&order).Error
-
+	err := idb.DB.Session(&gorm.Session{FullSaveAssociations: true}).Updates(&order).Error
 	if err != nil {
 		return order, err
 	}
