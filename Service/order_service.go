@@ -5,6 +5,7 @@ import (
 	models "order-api/Models"
 	repository "order-api/Repository"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -83,12 +84,13 @@ func (soi ServiceOrderImplementation) UpdateOrderService(c *gin.Context, order m
 		result      gin.H
 	)
 
-	order, err := soi.repo.FindOrderById(order.ID)
+	_, err := soi.repo.FindOrderById(order.ID)
 	if err != nil {
 		panic(err)
 	}
 
 	updateOrder = order
+	updateOrder.CreatedAt = time.Now()
 	res, err := soi.repo.UpdateOrderRepository(updateOrder)
 	fmt.Println(res)
 	if err != nil {
@@ -97,7 +99,7 @@ func (soi ServiceOrderImplementation) UpdateOrderService(c *gin.Context, order m
 		}
 	} else {
 		result = gin.H{
-			"result": "Update data successfully",
+			"result": res,
 		}
 	}
 

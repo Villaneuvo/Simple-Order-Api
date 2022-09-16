@@ -50,19 +50,17 @@ func (oc orderController) UpdateOrderController(c *gin.Context) {
 	)
 
 	err := c.ShouldBindJSON(&order)
-
 	if err != nil {
 		c.JSON(http.StatusBadRequest, result)
 		return
 	}
 
 	res := oc.os.UpdateOrderService(c, order)
-
+	fmt.Println("The Result is: ", order)
 	c.JSON(200, res)
 }
 
 func (oc orderController) DeleteOrderController(c *gin.Context) {
 	res := oc.os.DeleteOrderService(c)
-	fmt.Println(res)
 	c.JSON(200, res)
 }
